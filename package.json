@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",
+    "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@testing-library/jest-dom": "^5.16.1",
@@ -15,6 +16,7 @@
     "@types/react-dom": "^17.0.11",
     "antd": "^4.19.5",
     "craco-less": "^2.0.0",
+    "dayjs": "^1.11.1",
     "eslint-config-prettier": "^8.3.0",
     "jira-dev-tool": "^1.7.61",
     "qs": "^6.10.3",

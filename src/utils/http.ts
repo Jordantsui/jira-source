@@ -1,17 +1,17 @@
 import qs from "qs";
 import * as auth from "auth-provider";
 import { useAuth } from "context/auth-context";
-import { type } from "os";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 interface Config extends RequestInit {
+  // RequestInit 从何而来？？？
   token?: string;
   data?: object;
 }
 
 export const http = async (
-  endpoint: string,
+  endpoint: string, // url
   { data, token, headers, ...customConfig }: Config = {}
 ) => {
   const config = {

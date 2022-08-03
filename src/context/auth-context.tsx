@@ -38,9 +38,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
 
-  useMount(() => {
-    bootstrapUser().then(setUser);
-  });
+  // useMount(() => {
+  //   bootstrapUser().then(setUser);
+  // });
 
   return (
     <AuthContext.Provider
@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
+  // useContext 用在通用文件的函数中了，如有需要，引入这个函数即可
   if (!context) {
     throw new Error("useAuth必须在AuthProvider中使用");
   }

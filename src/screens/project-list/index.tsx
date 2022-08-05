@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SearchPanel } from "screens/project-list/search-panel";
 import { List } from "screens/project-list/list";
-import { useDebounce } from "../../utils";
+import { useDebounce, useDocumentTitle } from "../../utils";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "utils/project";
@@ -20,6 +20,8 @@ export const ProjectListScreen = () => {
   // 把列表数据渲染、loading、error 等状态都收入一个hook中
   const { data: users } = useUsers();
   // useUsers 得到的是用户列表
+
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>

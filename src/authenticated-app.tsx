@@ -34,6 +34,7 @@ export const AuthenticatedApp = () => {
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
+            {/* 不能去掉后面的/* */}
             <Route path="*" element={<Navigate to={"/projects"} />} />
           </Routes>
         </Router>

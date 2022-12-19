@@ -10,10 +10,49 @@ export const useProjects = (param?: Partial<Project>) => {
   // useAsync 封装了异步请求、loading、error 等
   // run 表示处理异步请求的过程，接收一个promise
 
+  const fetchProjects = () =>
+    client("projects", { data: cleanObject(param || {}) });
+
   useEffect(() => {
-    run(client("projects", { data: cleanObject(param || {}) }));
+    run(fetchProjects(), {
+      retry: fetchProjects,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
 
   return result;
+};
+
+export const useEditProject = () => {
+  const { run, ...asyncResult } = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "PATCH",
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
+};
+
+export const useAddProject = () => {
+  const { run, ...asyncResult } = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "POST",
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
 };

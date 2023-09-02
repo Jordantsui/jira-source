@@ -1,5 +1,5 @@
 import { useMountedRef } from './index';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 interface State<D> {
   error: Error | null;
@@ -32,22 +32,28 @@ export const useAsync = <D>(
   // https://codesandbox.io/s/blissful-water-230u4?file=/src/App.js
   const [retry, setRetry] = useState(() => () => {});
 
-  const setData = (data: D) =>
-    setState({
-      data,
-      stat: "success",
-      error: null,
-    });
+  const setData = useCallback(
+    (data: D) =>
+      setState({
+        data,
+        stat: "success",
+        error: null,
+      }),
+    []
+  );
 
-  const setError = (error: Error) =>
-    setState({
-      error,
-      stat: "error",
-      data: null,
-    });
+  const setError = useCallback(
+    (error: Error) =>
+      setState({
+        error,
+        stat: "error",
+        data: null,
+      }),
+    []
+  );
 
   // run 用来触发异步请求
-  const run = (
+  const run = useCallback((
     promise: Promise<D>,
     runConfig?: { retry: () => Promise<D> }
   ) => {
@@ -71,7 +77,7 @@ export const useAsync = <D>(
         if (config.throwOnError) return Promise.reject(error);
         return error;
       });
-  };
+  }, [config.throwOnError, mountedRef, setData, setError]);
 
   return {
     isIdle: state.stat === "idle",

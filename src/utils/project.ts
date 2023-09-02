@@ -1,6 +1,6 @@
 import { useAsync } from "utils/use-async";
 import { Project } from "screens/project-list/list";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { cleanObject } from "utils/index";
 import { useHttp } from "utils/http";
 
@@ -10,15 +10,16 @@ export const useProjects = (param?: Partial<Project>) => {
   // useAsync 封装了异步请求、loading、error 等
   // run 表示处理异步请求的过程，接收一个promise
 
-  const fetchProjects = () =>
-    client("projects", { data: cleanObject(param || {}) });
+  const fetchProjects = useCallback(
+    () => client("projects", { data: cleanObject(param || {}) }),
+    [param, client]
+  );
 
   useEffect(() => {
     run(fetchProjects(), {
       retry: fetchProjects,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param]);
+  }, [param, run, fetchProjects]);
 
   return result;
 };
